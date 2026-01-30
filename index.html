@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Agriculture - Digital Twin Dashboard</title>
+    <link rel="stylesheet" href="./src/css/variables.css">
+    <link rel="stylesheet" href="./src/css/global.css">
+    <link rel="stylesheet" href="./src/css/components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="material-icons-round">eco</span>
+                <h2>Nông Nghiệp 4.0</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#/dashboard" class="nav-item active" data-path="/dashboard">
+                    <span class="material-icons-round">dashboard</span>
+                    <span>Tổng quan</span>
+                </a>
+                <a href="#/realtime" class="nav-item" data-path="/realtime">
+                    <span class="material-icons-round">sensors</span>
+                    <span>Giám sát</span>
+                </a>
+                <a href="#/trends" class="nav-item" data-path="/trends">
+                    <span class="material-icons-round">timeline</span>
+                    <span>Biểu đồ</span>
+                </a>
+                <a href="#/ai" class="nav-item" data-path="/ai">
+                    <span class="material-icons-round">psychology</span>
+                    <span>AI Bệnh lá</span>
+                </a>
+                <a href="#/prediction" class="nav-item" data-path="/prediction">
+                    <span class="material-icons-round">trending_up</span>
+                    <span>Dự đoán</span>
+                </a>
+                <a href="#/twin" class="nav-item" data-path="/twin">
+                    <span class="material-icons-round">dns</span>
+                    <span>Mô hình số</span>
+                </a>
+                <a href="#/control" class="nav-item" data-path="/control">
+                    <span class="material-icons-round">tune</span>
+                    <span>Điều khiển</span>
+                </a>
+                <a href="#/alerts" class="nav-item" data-path="/alerts">
+                    <span class="material-icons-round">notifications</span>
+                    <span>Cảnh báo</span>
+                    <span class="badge" id="alert-badge" style="display:none">0</span>
+                </a>
+                <a href="#/settings" class="nav-item" data-path="/settings">
+                    <span class="material-icons-round">settings</span>
+                    <span>Cài đặt</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="connection-status online">
+                    <span class="status-dot"></span>
+                    <span id="connection-text">Hệ thống Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="breadcrumbs">
+                    <h1 id="page-title">Tổng quan hệ thống</h1>
+                    <span id="current-time">--:--:--</span>
+                </div>
+                <div class="actions">
+                    <button class="icon-btn" id="theme-toggle">
+                        <span class="material-icons-round">dark_mode</span>
+                    </button>
+                    <div class="user-profile">
+                        <div class="avatar">QTV</div>
+                        <span>Quản trị viên</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Area -->
+            <div id="content-area" class="content-area">
+                <!-- Views will be injected here -->
+                <div class="loading-spinner">Đang tải hệ thống...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Global Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="hidden"></div>
+
+    <script type="module" src="./src/js/main.js"></script>
+</body>
+
+</html>
