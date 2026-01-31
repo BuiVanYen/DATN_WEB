@@ -1,81 +1,489 @@
 /* Component Styles */
+/* ===========================================
+   Tổng hợp tất cả CSS cho các Component
+   - KPI Card (Dashboard)
+   - Control View (Điều khiển thiết bị)
+   - Digital Twin View (Mô hình số)
+   =========================================== */
 
-/* KPI Card - Áp dụng mọi thẻ có class kip-card*/
+/* ===========================================
+   1. KPI Card - Dashboard Cards
+   =========================================== */
 .kpi-card {
-  /* màu nền thẻ var(--bg-surface) là biến màu lấy từ file variable.css*/
   background-color: var(--bg-surface);
-  /* bo góc thẻ */
   border-radius: var(--radius-md);
-  /* đổ bóng thẻ */
   box-shadow: var(--shadow-sm);
-  /* khoảng đệm 1.25 so với font gocoscho nd ko sát mép */
   padding: 1.25rem;
-  /* biến thẻ thành flexbox */
   display: flex;
-  /* các phần bên trong sắp xếp theo cột dọc */
   flex-direction: column;
-  /* các phần bên trong giãn cách đều */
   justify-content: space-between;
-  /* hiệu ứng chuyển đổi mượt mà khi hover, all- áp dụng cho mọi thay đổi(màu, vị trí, bóng)
-  0.3s- thời gian hiệu ứng là 0.3s
-  cubic-bezier hàm toán giúp chuyenen động nhanh đầu, chậm cuối */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Smooth spring-like transition */
   cursor: default;
-  /* tạo viền dày 1px nhưng trong suốt */
   border: 1px solid transparent;
 }
-/* hiệu ứng khi di chuột */
+
 .kpi-card:hover {
-  /* Dịch chuyển bay lên trên 5px và scale lên 2% */
   transform: translateY(-5px) scale(1.02);
-  /* đổ bóng đậm hơn và rộng hơn, đổi viền từ trong suốt sang màu chủ đạo sáng */
   box-shadow: var(--shadow-hover);
   border-color: var(--primary-light);
 }
-/* Phần tiêu đề thẻ */
+
 .card-header {
   display: flex;
-  /* đẩy tiêu đề sang trái và icon sang phải */
   justify-content: space-between;
-  /* căn tiêu đề và icon theo chiều dọc */
   align-items: center;
-  /*tạo khoảng cách 8 px xuống nội dung dưới*/
   margin-bottom: 0.5rem;
 }
 
 .card-title {
   font-size: 0.875rem;
-  /*mãu chữ phụ - tránh màu nền*/
   color: var(--text-secondary);
-  /*độ đậm*/
   font-weight: 500;
-  /*chữ in hoa*/
   text-transform: uppercase;
-  /*khoảng cách giữa các chữ*/
   letter-spacing: 0.05em;
 }
 
 .card-body {
   display: flex;
-  /*Nó căn chân chữ của số to (25) và số nhỏ (°C) thẳng hàng nhau trên một dòng kẻ vô hình. Giúp mắt đọc tự nhiên hơn là căn giữa (center).*/
   align-items: baseline;
-  /*khoảng cách giữa các chữ và số*/
   gap: 0.25rem;
 }
-/*số liệu*/
+
 .card-body .value {
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-main);
 }
-/*đơn vị*/
+
 .card-body .unit {
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
 
-/* Tạo hiệu ứng xuất hiện */
+/* ===========================================
+   2. Control View - Trang Điều khiển
+   =========================================== */
+.control-view {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+/* Header */
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.control-main-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.25rem;
+}
+
+.control-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Mode Toggle Button */
+.mode-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-toggle-btn.auto {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.mode-toggle-btn.manual {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+  animation: pulse-warning 2s infinite;
+}
+
+.mode-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+.mode-toggle-btn.manual:hover {
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+.mode-icon {
+  font-size: 1.5rem;
+}
+
+.mode-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  animation: blink 1.5s infinite;
+}
+
+/* Timer Banner */
+.manual-timer-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.manual-timer-banner.hidden {
+  display: none;
+}
+
+.timer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #92400e;
+}
+
+.warning-icon {
+  color: #f59e0b;
+  font-size: 1.5rem;
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: #d97706;
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.cancel-manual-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.cancel-manual-btn:hover {
+  background: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* Devices Grid */
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Device Card */
+.device-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.device-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--device-color, var(--primary)) 0%, transparent 100%);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.device-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-light);
+}
+
+.device-card.active {
+  border-color: var(--device-color, var(--status-ok));
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+.device-card.active::before {
+  opacity: 1;
+  background: linear-gradient(90deg, var(--device-color, var(--status-ok)) 0%, var(--device-color, var(--status-ok)) 100%);
+}
+
+.device-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.device-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.device-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--device-color, var(--primary)) 0%, var(--device-color-light, var(--primary-light)) 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.device-card.active .device-icon-wrapper {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.3);
+}
+
+.device-icon {
+  font-size: 2rem;
+  color: white;
+}
+
+.device-status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.device-status-badge.off {
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+}
+
+.device-status-badge.on {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  animation: pulse-on 2s infinite;
+}
+
+.device-info {
+  margin-bottom: 1.25rem;
+}
+
+.device-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.device-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Toggle Switch */
+.device-toggle {
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.device-toggle.off {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  color: #6b7280;
+}
+
+.device-toggle.on {
+  background: linear-gradient(135deg, var(--device-color, #10b981) 0%, var(--device-color-dark, #059669) 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.device-toggle:hover {
+  transform: scale(1.02);
+}
+
+.device-toggle:active {
+  transform: scale(0.98);
+}
+
+.device-toggle .toggle-icon {
+  font-size: 1.25rem;
+}
+
+/* Control Footer */
+.control-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.control-footer .status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--status-ok);
+  animation: pulse-dot 2s infinite;
+}
+
+/* ===========================================
+   3. Digital Twin View - Mô hình số
+   =========================================== */
+.twin-card {
+  background: var(--bg-surface);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.twin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.twin-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Real-time Card */
+.twin-card.real {
+  border-color: var(--status-info);
+  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+.twin-card.real h3 {
+  color: var(--status-info);
+}
+
+/* Expected Card */
+.twin-card.expected {
+  border-color: var(--status-ok);
+  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.twin-card.expected h3 {
+  color: var(--status-ok);
+}
+
+/* Twin Row - Mỗi hàng dữ liệu */
+.twin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.twin-row:last-child {
+  border-bottom: none;
+}
+
+.twin-row span:first-child {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.twin-row .val {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+/* Recommendation Items */
+.rec-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-muted);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.rec-item:hover {
+  transform: translateX(5px);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.rec-item .material-icons-round {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.rec-item span:last-child {
+  color: var(--text-main);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ===========================================
+   4. Animations - Hiệu ứng chung
+   =========================================== */
 @keyframes fadeIn {
   from {
     opacity: 0.5;
@@ -86,7 +494,334 @@
   }
 }
 
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes pulse-warning {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 4px 25px rgba(245, 158, 11, 0.6);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-on {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.5s ease-out;
 }
-@
+
+/* ===========================================
+   5. Responsive - Tương thích Mobile
+   =========================================== */
+@media (max-width: 768px) {
+  .control-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .devices-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manual-timer-banner {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* ===========================================
+   6. Prediction View - Trang Dự đoán
+   =========================================== */
+.prediction-view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.prediction-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-main);
+}
+
+.prediction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.prediction-card {
+  background: var(--bg-surface);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.prediction-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.prediction-card .card-label {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.harvest-date {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.days-remaining {
+  margin-top: 0.75rem;
+}
+
+.badge.info {
+  background: var(--status-info);
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.confidence-section {
+  margin-top: 2rem;
+}
+
+.confidence-section h4 {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  background: var(--bg-muted);
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.progress-label {
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+}
+
+.factors-list {
+  list-style: none;
+  margin-top: 1.25rem;
+  padding: 0;
+}
+
+.factor-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.factor-item:last-child {
+  border-bottom: none;
+}
+
+.factor-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.factor-icon {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.factor-value {
+  color: var(--text-main);
+  font-size: 1.1rem;
+}
+
+/* What-If Section - Dark Mode Compatible */
+.whatif-section {
+  margin-top: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatif-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary) 100%);
+}
+
+.whatif-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.whatif-icon {
+  font-size: 1.5rem;
+}
+
+.whatif-header h3 {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.whatif-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.whatif-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.whatif-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-main);
+  background: var(--bg-muted);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.whatif-input-group .material-icons-round {
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.simulate-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(46, 125, 50, 0.3);
+}
+
+.simulate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+}
+
+.simulate-btn .material-icons-round {
+  font-size: 1.25rem;
+}
+
+.whatif-result {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--status-ok);
+  font-weight: 500;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.result-icon {
+  font-size: 1.25rem;
+}
+
+/* Prediction View Responsive */
+@media (max-width: 768px) {
+  .whatif-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .whatif-input-group,
+  .simulate-btn,
+  .whatif-result {
+    width: 100%;
+    justify-content: center;
+  }
+}
