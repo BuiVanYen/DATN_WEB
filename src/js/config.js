@@ -40,6 +40,12 @@ export const THRESHOLDS = {
   },
 };
 
+export const DEVICES = [
+  { id: 'pump', name: 'Bơm nước', icon: 'water_drop' },
+  { id: 'fan', name: 'Quạt gió', icon: 'air' },
+  { id: 'led', name: 'Đèn LED', icon: 'light_mode' }
+];
+
 /**
  * Hàm hỗ trợ xác định màu trạng thái dựa trên giá trị
  * @param {string} metric - vd: 'ph'

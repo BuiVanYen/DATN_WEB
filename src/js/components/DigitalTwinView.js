@@ -77,28 +77,6 @@ export class DigitalTwinView {
                     </ul>
                 </div>
            </div>
-           
-           <style>
-            .twin-card {
-                background: var(--bg-surface);
-                padding: 1.5rem;
-                border-radius: var(--radius-md);
-                box-shadow: var(--shadow-sm);
-                border-top: 4px solid var(--primary);
-            }
-            .twin-card.real { border-color: var(--status-info); }
-            .twin-card.expected { border-color: var(--status-ok); } /* Mock model color */
-            
-            .twin-row {
-                display:flex; justify-content:space-between; margin-top:0.75rem; font-size:1.1rem;
-            }
-            .twin-row .val { font-weight:bold; }
-            
-            .rec-item {
-                display:flex; gap:0.5rem; align-items:start; font-size:0.9rem; color:var(--text-secondary);
-                background: var(--bg-body); padding:0.5rem; border-radius:var(--radius-sm);
-            }
-           </style>
         `;
 
         this.unsubscribe = store.subscribe('sensors', (data) => this.update(data));
@@ -115,5 +93,7 @@ export class DigitalTwinView {
         if (data.t_water) setBg('#real-tw', data.t_water);
     }
 
-    destroy() { }
+    destroy() {
+        if (this.unsubscribe) this.unsubscribe();
+    }
 }

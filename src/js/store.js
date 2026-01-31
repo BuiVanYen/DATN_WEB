@@ -45,6 +45,7 @@ class Store {
       //lấy theme đã lưu trong trình duyệt (localStorage) nếu có. Mặc định là 'light'
       //localStorage là “bộ nhớ nhỏ” của trình duyệt, lưu được sau khi bạn đóng/mở web lại.
       theme: localStorage.getItem("theme") || "light",
+      history: [], // Mảng lưu lịch sử dữ liệu cảm biến
     };
     this.listeners = {}; // là mảng lưu trữ các hàm callback để gọi khi trạng thái thay đổi.
   }
@@ -81,6 +82,26 @@ class Store {
     if (key === "theme") {
       localStorage.setItem("theme", value);
       document.documentElement.setAttribute("data-theme", value);
+    }
+
+    // Logic lưu lịch sử cho biểu đồ (Xử lý Data Logic)
+    if (key === 'sensors' && value.timestamp) {
+      // Tạo mảng history nếu chưa có
+      if (!this.state.history) this.state.history = [];
+
+      const history = this.state.history;
+      history.push(value);
+
+      // Giới hạn số lượng điểm (Rolling Window) lấy từ config
+      // Default 50 nếu chưa config
+      const limit = CONFIG.CHART_HISTORY_POINTS || 50;
+      if (history.length > limit) {
+        history.shift();
+      }
+      // Có thể notify cho ai đang nghe 'history' (nếu cần)
+      if (this.listeners['history']) {
+        this.listeners['history'].forEach(cb => cb(history));
+      }
     }
   }
 

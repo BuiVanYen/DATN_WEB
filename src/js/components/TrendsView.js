@@ -5,7 +5,6 @@ export class TrendsView {
         this.container = container;
         this.chart = null;
         this.unsubscribe = null;
-        this.history = []; // Local buffer
     }
 
     async mount() {
@@ -28,14 +27,21 @@ export class TrendsView {
         const ctx = this.container.querySelector('#trendChart').getContext('2d');
         const select = this.container.querySelector('#metric-select');
 
+        // Initial Data Load from Store
+        const history = store.getState().history || [];
+        const initialMetric = 't_air';
+
+        const labels = history.map(d => new Date(d.timestamp).toLocaleTimeString());
+        const dataPoints = history.map(d => d[initialMetric]);
+
         // Initialize Chart
         this.chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [],
+                labels: labels,
                 datasets: [{
-                    label: 'Air Temp',
-                    data: [],
+                    label: this.getLabel(initialMetric),
+                    data: dataPoints,
                     borderColor: '#10b981', // Emerald 500
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     tension: 0.4,
@@ -49,7 +55,7 @@ export class TrendsView {
                     x: { display: true },
                     y: { beginAtZero: false }
                 },
-                animation: false // Disable animation for perforamnce on realtime
+                animation: false
             }
         });
 
@@ -58,17 +64,30 @@ export class TrendsView {
             this.updateChartMetric(e.target.value);
         });
 
-        // Subscribe
+        // Subscribe - Now we just need to append new points
+        // History in store is automatically updated by store logic we just added
         this.unsubscribe = store.subscribe('sensors', (data) => this.addDataPoint(data));
     }
 
-    updateChartMetric(metric) {
-        this.chart.data.datasets[0].label = metric.toUpperCase();
+    getLabel(metric) {
+        const map = {
+            't_air': 'Nhiệt độ không khí',
+            'rh': 'Độ ẩm',
+            'ph': 'Độ pH',
+            'ec': 'Độ dẫn điện (EC)',
+            't_water': 'Nhiệt độ nước'
+        };
+        return map[metric] || metric.toUpperCase();
+    }
 
-        // Clear current data visual only, keep buffer logic if we were tracking all
-        // For simple demo, we just clear and wait for new data or need a history buffer in Store
-        this.chart.data.labels = [];
-        this.chart.data.datasets[0].data = [];
+    updateChartMetric(metric) {
+        this.chart.data.datasets[0].label = this.getLabel(metric);
+
+        // Reload data from global history
+        const history = store.getState().history || [];
+        this.chart.data.labels = history.map(d => new Date(d.timestamp).toLocaleTimeString());
+        this.chart.data.datasets[0].data = history.map(d => d[metric]);
+
         this.chart.update();
     }
 
@@ -80,12 +99,15 @@ export class TrendsView {
         const val = data[metric];
         const time = new Date(data.timestamp).toLocaleTimeString();
 
-        // Add Data
+        // Add Data to Visual Chart
         this.chart.data.labels.push(time);
         this.chart.data.datasets[0].data.push(val);
 
-        // Rolling Window (Keep 20 points)
-        if (this.chart.data.labels.length > 20) {
+        // Visual rolling window (keep it consistent with store history size or slightly less/more as needed)
+        // Store config defines history size.
+        // Let's just limit visual items to avoid memory leak in long running tab, 
+        // though store history limit is 50.
+        if (this.chart.data.labels.length > 50) {
             this.chart.data.labels.shift();
             this.chart.data.datasets[0].data.shift();
         }
@@ -95,5 +117,6 @@ export class TrendsView {
 
     destroy() {
         if (this.chart) this.chart.destroy();
+        if (this.unsubscribe) this.unsubscribe();
     }
 }

@@ -6,11 +6,8 @@ export class AIView {
     async mount() {
         this.container.innerHTML = `
             <h2>Phát hiện Bệnh bằng AI (CNN)</h2>
-            <div style="margin-top:1.5rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1.5rem;">
-                ${this.renderCard('healthy', 0.99, 'Hôm nay, 10:00 Sáng')}
-                ${this.renderCard('early_blight', 0.85, 'Hôm qua, 4:30 Chiều')}
-                ${this.renderCard('healthy', 0.98, 'Hôm qua, 2:15 Chiều')}
-                ${this.renderCard('late_blight', 0.92, '28/01, 09:00 Sáng')}
+            <div id="ai-grid" style="margin-top:1.5rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1.5rem;">
+                <!-- Cards injected here safely -->
             </div>
 
              <!-- Mock Modal -->
@@ -26,13 +23,18 @@ export class AIView {
              </div>
         `;
 
-        // Interactive Gallery
-        this.container.querySelectorAll('.ai-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const label = card.dataset.label;
-                const conf = card.dataset.conf;
-                this.showModal(label, conf);
-            });
+        const grid = this.container.querySelector('#ai-grid');
+
+        const cardsData = [
+            { label: 'healthy', conf: 0.99, time: 'Hôm nay, 10:00 Sáng' },
+            { label: 'early_blight', conf: 0.85, time: 'Hôm qua, 4:30 Chiều' },
+            { label: 'healthy', conf: 0.98, time: 'Hôm qua, 2:15 Chiều' },
+            { label: 'late_blight', conf: 0.92, time: '28/01, 09:00 Sáng' }
+        ];
+
+        cardsData.forEach(item => {
+            const cardNode = this.createCardNode(item.label, item.conf, item.time);
+            grid.appendChild(cardNode);
         });
 
         this.container.querySelector('#close-modal').addEventListener('click', () => {
@@ -40,7 +42,7 @@ export class AIView {
         });
     }
 
-    renderCard(label, conf, time) {
+    createCardNode(label, conf, time) {
         // Translation Map
         const DISEASE_MAP = {
             'healthy': 'Khỏe mạnh',
@@ -54,20 +56,55 @@ export class AIView {
         const isHealthy = label === 'healthy';
         const color = isHealthy ? 'var(--status-ok)' : 'var(--status-critical)';
 
-        return `
-            <div class="ai-card" data-label="${label}" data-conf="${conf}" style="cursor:pointer; background:var(--bg-surface); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); transition:transform 0.2s;">
-                <div style="height:150px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; color:var(--text-secondary);">
-                    <span class="material-icons-round" style="font-size:3rem;">image</span>
-                </div>
-                <div style="padding:1rem;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong style="text-transform:capitalize;">${displayName}</strong>
-                        <span style="font-size:0.8rem; color:${color}; border:1px solid ${color}; padding:2px 6px; border-radius:4px;">${(conf * 100).toFixed(0)}%</span>
-                    </div>
-                    <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;">${time}</div>
-                </div>
-            </div>
-        `;
+        // Create elements safely using DOM API instead of innerHTML interpolation
+        const card = document.createElement('div');
+        card.className = 'ai-card';
+        card.style.cssText = 'cursor:pointer; background:var(--bg-surface); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); transition:transform 0.2s;';
+        card.dataset.label = label;
+        card.dataset.conf = conf;
+
+        const imgDiv = document.createElement('div');
+        imgDiv.style.cssText = 'height:150px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; color:var(--text-secondary);';
+
+        const icon = document.createElement('span');
+        icon.className = 'material-icons-round';
+        icon.style.fontSize = '3rem';
+        icon.textContent = 'image';
+        imgDiv.appendChild(icon);
+
+        const bodyDiv = document.createElement('div');
+        bodyDiv.style.padding = '1rem';
+
+        const rowDiv = document.createElement('div');
+        rowDiv.style.cssText = 'display:flex; justify-content:space-between; align-items:center;';
+
+        const title = document.createElement('strong');
+        title.style.textTransform = 'capitalize';
+        title.textContent = displayName; // Safe text insertion
+
+        const badge = document.createElement('span');
+        badge.style.cssText = `font-size:0.8rem; color:${color}; border:1px solid ${color}; padding:2px 6px; border-radius:4px;`;
+        badge.textContent = (conf * 100).toFixed(0) + '%';
+
+        rowDiv.appendChild(title);
+        rowDiv.appendChild(badge);
+
+        const timeDiv = document.createElement('div');
+        timeDiv.style.cssText = 'font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;';
+        timeDiv.textContent = time; // Safe text insertion
+
+        bodyDiv.appendChild(rowDiv);
+        bodyDiv.appendChild(timeDiv);
+
+        card.appendChild(imgDiv);
+        card.appendChild(bodyDiv);
+
+        // Add Event Listener
+        card.addEventListener('click', () => {
+            this.showModal(label, conf);
+        });
+
+        return card;
     }
 
     showModal(label, conf) {
@@ -78,10 +115,15 @@ export class AIView {
             'leaf_curl': 'Xoăn lá',
             'mosaic_virus': 'Khảm lá'
         };
-        const displayName = DISEASE_MAP[label] || label;
+        const displayName = DISEASE_MAP[label] || label; // label might be unsafe if not checked, but textContent handles it
+
         const modal = this.container.querySelector('#ai-modal');
-        modal.querySelector('#modal-title').textContent = 'Phát hiện: ' + displayName;
-        modal.querySelector('#modal-conf').textContent = (conf * 100).toFixed(1) + '%';
+        const titleEl = modal.querySelector('#modal-title');
+        const confEl = modal.querySelector('#modal-conf');
+
+        titleEl.textContent = 'Phát hiện: ' + displayName; // Safe
+        confEl.textContent = (conf * 100).toFixed(1) + '%'; // Safe
+
         modal.classList.remove('hidden');
     }
 
