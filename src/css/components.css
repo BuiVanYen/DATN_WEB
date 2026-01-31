@@ -1,70 +1,91 @@
 /* Component Styles */
 
-/* KPI Card */
+/* KPI Card - Áp dụng mọi thẻ có class kip-card*/
 .kpi-card {
-    background-color: var(--bg-surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Smooth spring-like transition */
-    cursor: default;
-    border: 1px solid transparent;
+  /* màu nền thẻ var(--bg-surface) là biến màu lấy từ file variable.css*/
+  background-color: var(--bg-surface);
+  /* bo góc thẻ */
+  border-radius: var(--radius-md);
+  /* đổ bóng thẻ */
+  box-shadow: var(--shadow-sm);
+  /* khoảng đệm 1.25 so với font gocoscho nd ko sát mép */
+  padding: 1.25rem;
+  /* biến thẻ thành flexbox */
+  display: flex;
+  /* các phần bên trong sắp xếp theo cột dọc */
+  flex-direction: column;
+  /* các phần bên trong giãn cách đều */
+  justify-content: space-between;
+  /* hiệu ứng chuyển đổi mượt mà khi hover, all- áp dụng cho mọi thay đổi(màu, vị trí, bóng)
+  0.3s- thời gian hiệu ứng là 0.3s
+  cubic-bezier hàm toán giúp chuyenen động nhanh đầu, chậm cuối */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Smooth spring-like transition */
+  cursor: default;
+  /* tạo viền dày 1px nhưng trong suốt */
+  border: 1px solid transparent;
 }
-
+/* hiệu ứng khi di chuột */
 .kpi-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    /* Pop up and zoom slightly */
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-light);
+  /* Dịch chuyển bay lên trên 5px và scale lên 2% */
+  transform: translateY(-5px) scale(1.02);
+  /* đổ bóng đậm hơn và rộng hơn, đổi viền từ trong suốt sang màu chủ đạo sáng */
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-light);
 }
-
+/* Phần tiêu đề thẻ */
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
+  display: flex;
+  /* đẩy tiêu đề sang trái và icon sang phải */
+  justify-content: space-between;
+  /* căn tiêu đề và icon theo chiều dọc */
+  align-items: center;
+  /*tạo khoảng cách 8 px xuống nội dung dưới*/
+  margin-bottom: 0.5rem;
 }
 
 .card-title {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  /*mãu chữ phụ - tránh màu nền*/
+  color: var(--text-secondary);
+  /*độ đậm*/
+  font-weight: 500;
+  /*chữ in hoa*/
+  text-transform: uppercase;
+  /*khoảng cách giữa các chữ*/
+  letter-spacing: 0.05em;
 }
 
 .card-body {
-    display: flex;
-    align-items: baseline;
-    gap: 0.25rem;
+  display: flex;
+  /*Nó căn chân chữ của số to (25) và số nhỏ (°C) thẳng hàng nhau trên một dòng kẻ vô hình. Giúp mắt đọc tự nhiên hơn là căn giữa (center).*/
+  align-items: baseline;
+  /*khoảng cách giữa các chữ và số*/
+  gap: 0.25rem;
 }
-
+/*số liệu*/
 .card-body .value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-main);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
-
+/*đơn vị*/
 .card-body .unit {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-/* Animations */
+/* Tạo hiệu ứng xuất hiện */
 @keyframes fadeIn {
-    from {
-        opacity: 0.5;
-    }
+  from {
+    opacity: 0.5;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .fade-in {
-    animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }

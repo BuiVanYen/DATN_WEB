@@ -1,60 +1,69 @@
 :root {
-    /* Base Colors - Emerald/Teal Nature Theme */
-    --primary: #10b981;
-    /* Emerald 500 */
-    --primary-hover: #059669;
-    --primary-light: #d1fae5;
+  /* Base Colors - Emerald/Teal Nature Theme */
+  --primary: #10b981;
+  /* Xanh Emerald 500 */
+  /* Khi di chuột màu đậm hơn */
+  --primary-hover: #059669;
+  --primary-light: #d1fae5;
 
-    /* Light Green Background Intent */
-    --bg-body: #ecfdf5;
-    /* Emerald 50 - Fresh Light Green */
-    --bg-surface: #ffffff;
-    --bg-sidebar: #ffffff;
+  /* Light Green Background Intent */
+  /* Nền toàn trang(nhạt xan) */
+  --bg-body: #ecfdf5;
+  /* Emerald 50 - Fresh Light Green */
+  /* Nền cho các bề mặt như card, top bar (trắng) */
+  --bg-surface: #ffffff;
+  --bg-sidebar: #ffffff;
+  /* màu chữ */
+  --text-main: #064e3b;
+  /* Emerald 900 - Darker green text for harmony - màu chữ phụ*/
+  --text-secondary: #334155;
+  /* Slate 700 - đảo màu khi dùng nền tối*/
+  --text-invert: #ffffff;
+  /* màu viền- xanh nhạt*/
+  --border: #a7f3d0;
+  /* Emerald 200 - Greenish border - màu đường kẻ ngăn cách*/
+  --divider: #d1fae5;
 
-    --text-main: #064e3b;
-    /* Emerald 900 - Darker green text for harmony */
-    --text-secondary: #334155;
-    /* Slate 700 */
-    --text-invert: #ffffff;
+  /* Status Colors - xanh ok, cảnh báo cam- nguy hiểm /lỗi đỏ, thông tin (xanh dương)*/
+  --status-ok: #10b981;
+  --status-warning: #f59e0b;
+  /* Amber 500 */
+  --status-critical: #ef4444;
+  /* Red 500 */
+  --status-info: #0ea5e9;
+  /* Sky 500 */
 
-    --border: #a7f3d0;
-    /* Emerald 200 - Greenish border */
-    --divider: #d1fae5;
+  /* Shadows - More Vivid - bóng đổ*/
+  --shadow-sm:/* bóng nhẹ*/
+    0 1px 3px 0 rgb(16 185 129 / 0.1), 0 1px 2px -1px rgb(16 185 129 / 0.1);
+  --shadow-md:/* bóng vừa*/
+    0 4px 6px -1px rgb(16 185 129 / 0.1), 0 2px 4px -2px rgb(16 185 129 / 0.1);
+  --shadow-lg:/* bóng mạnh*/
+    0 10px 15px -3px rgb(16 185 129 / 0.15),
+    0 4px 6px -4px rgb(16 185 129 / 0.1);
+  --shadow-hover:/* bóng mạnh nhất- khi di chuột*/
+    0 20px 25px -5px rgb(16 185 129 / 0.2),
+    0 8px 10px -6px rgb(16 185 129 / 0.1);
 
-    /* Status Colors */
-    --status-ok: #10b981;
-    --status-warning: #f59e0b;
-    /* Amber 500 */
-    --status-critical: #ef4444;
-    /* Red 500 */
-    --status-info: #0ea5e9;
-    /* Sky 500 */
+  /* Spacing & Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
 
-    /* Shadows - More Vivid */
-    --shadow-sm: 0 1px 3px 0 rgb(16 185 129 / 0.1), 0 1px 2px -1px rgb(16 185 129 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(16 185 129 / 0.1), 0 2px 4px -2px rgb(16 185 129 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(16 185 129 / 0.15), 0 4px 6px -4px rgb(16 185 129 / 0.1);
-    --shadow-hover: 0 20px 25px -5px rgb(16 185 129 / 0.2), 0 8px 10px -6px rgb(16 185 129 / 0.1);
-
-    /* Spacing & Radius */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 1rem;
-
-    --header-height: 64px;
-    --sidebar-width: 260px;
+  --header-height: 64px;
+  --sidebar-width: 260px;
 }
 
 [data-theme="dark"] {
-    --bg-body: #0f172a;
-    /* Slate 900 */
-    --bg-surface: #1e293b;
-    /* Slate 800 */
-    --bg-sidebar: #1e293b;
+  --bg-body: #0f172a;
+  /* Slate 900 */
+  --bg-surface: #1e293b;
+  /* Slate 800 */
+  --bg-sidebar: #1e293b;
 
-    --text-main: #f8fafc;
-    --text-secondary: #94a3b8;
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
 
-    --border: #334155;
-    --divider: #334155;
+  --border: #334155;
+  --divider: #334155;
 }
