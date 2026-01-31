@@ -60,7 +60,15 @@ class Store {
       this.listeners[key] = [];
     }
     this.listeners[key].push(callback);
-    // Có thể thêm cơ chế ID hủy đăng ký sau này
+
+    // Trả về hàm unsubscribe để component có thể hủy đăng ký khi destroy
+    // Điều này QUAN TRỌNG để tránh memory leak và lỗi khi chuyển view
+    return () => {
+      const index = this.listeners[key].indexOf(callback);
+      if (index > -1) {
+        this.listeners[key].splice(index, 1);
+      }
+    };
   }
 
   /**

@@ -82,6 +82,9 @@ export class RealtimeView {
     }
 
     destroy() {
-        // Remove listener logic if available
+        // Hủy đăng ký listener để tránh lỗi khi chuyển view
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
     }
 }
