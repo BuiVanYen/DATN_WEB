@@ -62,36 +62,73 @@
 
 /* ===========================================
    2. Control View - Trang Điều khiển
+   
+   Bố cục tổng thể:
+   ┌─────────────────────────────────────────┐
+   │  Header (Tiêu đề | Nút chế độ)         │
+   ├─────────────────────────────────────────┤
+   │  Timer Banner (hiện khi chế độ Thủ công)│
+   ├─────────────────────────────────────────┤
+   │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │
+   │  │ Bơm     │ │ Quạt    │ │ LED     │   │
+   │  │ nước    │ │ gió     │ │         │   │
+   │  └─────────┘ └─────────┘ └─────────┘   │
+   ├─────────────────────────────────────────┤
+   │  Footer (Trạng thái hệ thống)          │
+   └─────────────────────────────────────────┘
    =========================================== */
+
+/* Khung bao toàn bộ trang điều khiển */
 .control-view {
   max-width: 1000px;
+  /* Chiều rộng tối đa 1000px */
   margin: 0 auto;
+  /* Căn giữa trang theo chiều ngang */
   padding: 0.5rem;
+  /* Khoảng đệm xung quanh 8px */
 }
 
-/* Header */
+/* === HEADER === */
+/* Phần tiêu đề + nút chế độ ở trên cùng */
 .control-header {
   display: flex;
+  /* Dùng flexbox để sắp xếp con */
   justify-content: space-between;
+  /* Đẩy 2 bên sang 2 góc */
   align-items: center;
+  /* Căn giữa theo chiều dọc */
   margin-bottom: 2rem;
+  /* Khoảng cách phía dưới 32px */
   flex-wrap: wrap;
+  /* Cho phép xuống dòng trên màn hình nhỏ */
   gap: 1rem;
+  /* Khoảng cách giữa các phần tử 16px */
 }
 
+/* Tiêu đề chính "Trung tâm Điều khiển" */
 .control-main-title {
   font-size: 1.75rem;
+  /* Cỡ chữ 28px */
   font-weight: 700;
+  /* Chữ đậm */
+  /* Tạo hiệu ứng chữ màu gradient (chuyển màu) */
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   -webkit-background-clip: text;
+  /* Cắt background theo hình chữ */
   -webkit-text-fill-color: transparent;
+  /* Làm chữ trong suốt để thấy background */
   background-clip: text;
+  /* Chuẩn CSS (tương thích tương lai) */
   margin-bottom: 0.25rem;
+  /* Khoảng cách dưới 4px */
 }
 
+/* Phụ đề nhỏ bên dưới tiêu đề */
 .control-subtitle {
   color: var(--text-secondary);
+  /* Màu chữ phụ (xám nhạt) */
   font-size: 0.9rem;
+  /* Cỡ chữ 14.4px */
 }
 
 /* Mode Toggle Button */
@@ -202,41 +239,93 @@
   transform: scale(1.05);
 }
 
-/* Devices Grid */
+/* === LƯỚI THIẾT BỊ === */
+/* Khung chứa 3 card thiết bị (Bơm, Quạt, LED) */
 .devices-grid {
   display: grid;
+  /* Dùng CSS Grid để chia cột */
+  /* 
+   * repeat(auto-fit, minmax(280px, 1fr)) nghĩa là:
+   * - Mỗi cột tối thiểu 280px, tối đa giãn đều (1fr)
+   * - auto-fit: tự động điều chỉnh số cột theo chiều rộng màn hình
+   * - Màn hình lớn: 3 cột | Màn hình vừa: 2 cột | Màn hình nhỏ: 1 cột
+   */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  /* Khoảng cách giữa các card 24px */
   margin-bottom: 2rem;
+  /* Khoảng cách phía dưới 32px */
 }
 
-/* Device Card */
+/* === CARD THIẾT BỊ === */
+/* 
+ * Mỗi card thiết bị có cấu trúc:
+ * ┌─────────────────────────┐
+ * │ [Icon]           [TẮT] │  <- device-header
+ * │                        │
+ * │ Bơm nước               │  <- device-name
+ * │ Bơm dung dịch dinh...  │  <- device-description
+ * │                        │
+ * │ ┌────────────────────┐ │
+ * │ │    BẬT THIẾT BỊ    │ │  <- device-toggle
+ * │ └────────────────────┘ │
+ * └─────────────────────────┘
+ */
 .device-card {
   background: var(--bg-surface);
+  /* Màu nền card */
   border-radius: var(--radius-lg);
+  /* Bo góc lớn */
   padding: 1.5rem;
+  /* Khoảng đệm trong 24px */
   border: 2px solid transparent;
+  /* Viền trong suốt (sẽ đổi khi hover) */
+  /* Hiệu ứng chuyển động mượt khi hover */
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  /* Để định vị thanh màu ::before */
   overflow: hidden;
+  /* Ẩn phần tràn ra ngoài */
+
+  /* === QUAN TRỌNG: Căn đều các card === */
+  display: flex;
+  /* Dùng flexbox */
+  flex-direction: column;
+  /* Sắp xếp con theo chiều dọc */
+  height: 100%;
+  /* Chiều cao 100% để các card bằng nhau */
 }
 
+/* Thanh màu gradient ở đỉnh card */
 .device-card::before {
   content: '';
+  /* Bắt buộc có để pseudo-element hiển thị */
   position: absolute;
+  /* Định vị tuyệt đối so với card */
   top: 0;
+  /* Dính sát mép trên */
   left: 0;
+  /* Dính sát mép trái */
   right: 0;
+  /* Dính sát mép phải */
   height: 4px;
+  /* Chiều cao thanh 4px */
+  /* Gradient từ màu thiết bị -> trong suốt */
   background: linear-gradient(90deg, var(--device-color, var(--primary)) 0%, transparent 100%);
   opacity: 0.5;
+  /* Độ mờ 50% */
   transition: opacity 0.3s;
+  /* Hiệu ứng khi đổi opacity */
 }
 
+/* Hiệu ứng khi di chuột vào card */
 .device-card:hover {
   transform: translateY(-5px);
+  /* Nâng lên 5px */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  /* Đổ bóng đậm */
   border-color: var(--primary-light);
+  /* Viền màu xanh nhạt */
 }
 
 .device-card.active {
@@ -305,6 +394,8 @@
 
 .device-info {
   margin-bottom: 1.25rem;
+  /* Giãn để đẩy nút toggle xuống cuối card */
+  flex-grow: 1;
 }
 
 .device-name {
@@ -317,6 +408,13 @@
 .device-description {
   font-size: 0.85rem;
   color: var(--text-secondary);
+  /* Giới hạn 2 dòng để đồng bộ chiều cao */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.4em;
 }
 
 /* Toggle Switch */
